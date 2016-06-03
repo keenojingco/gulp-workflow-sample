@@ -1,14 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>KODIAK</title>
+
+    <!-- CDN -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- end CDN -->
+
+    <!--build:css css/vendor.min.css-->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+    <!-- endbuild -->
+
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="css/styles.css">
     <!-- endbuild -->
 </head>
-<body>
-    Hello World
+<body ng-app="kodiak">
+    <div style="border:1px solid;" layout layout-fill layout-align="center center" flex ng-cloak>
+        <div class="login" layout layout-wrap flex="40">
+            <h1 class="text-center" flex="100">KODIAK RATING</h1>
+            <span class="text-center" flex="100">CREATING SHARED VALUE</span>
+            <form name="loginForm" flex="100" layout layout-wrap layout-align="center">
+                <md-input-container flex="80">
+                    <md-icon class="ion-ios-email-outline"></md-icon>
+                    <label>email or username</label>
+                    <input name="username" ng-model="username" required>
+                    <div ng-messages="loginForm.username.$error">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="80">
+                    <md-icon class="ion-ios-unlocked-outline"></md-icon>
+                    <label>password</label>
+                    <input type="password" name="password" ng-model="password" required>
+                    <div ng-messages="loginForm.password.$error">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+
+                <div flex-gt-sm="40" flex="80">
+                    <md-button class="md-raised md-warn full-width">login</md-button>
+                </div>
+
+                <md-input-container flex="100">
+                    <p class="text-center">Forgot your password?</p>
+                </md-input-container>
+            </form>
+
+            <div layout layout-align="center center" flex="100">
+                <div layout class="text-left" layout-fill flex="90">
+                    <div flex="40" flex-gt-sm="40" flex-offset="10" layout="column">
+                        <span>New user?</span>
+                        <span>Get strted on CSVRating today</span>
+                    </div>
+                    <div flex="40" flex-offset="10" layout="column">
+                        <span>Invited to CSVRatingLive?</span>
+                        <span>Click here to get access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--build:js js/vendor.min.js -->
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <!-- endbuild -->
+
+    <script>
+        // Include app dependency on ngMaterial
+        angular.module( 'kodiak', [ 'ngMaterial' ] )
+            .controller("homeController", homeController );
+    </script>
 
     <!--build:js js/main.min.js -->
     <script src="js/lib/a-library.js"></script>

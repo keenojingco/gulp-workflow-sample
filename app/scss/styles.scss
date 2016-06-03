@@ -1,5 +1,48 @@
+//globals
+.full-width {
+    width: 100%;
+}
+
 body {
+    background: url('../images/bg.jpg') no-repeat center center fixed;
     font-family: 'Roboto', sans-serif;
-    background: yellow;
-    border:5px solid red;
+    background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+div.login{
+    color: #fff;
+
+    h1 {
+    }
+
+    form {
+        background: rgba(255, 255, 255, 0.3);
+        color: #fff;
+        margin:20px 0;
+        padding:50px 0;
+    }
+
+    .md-button {
+        width:100%;
+        margin:0;
+        padding:0;
+    }
+
+    md-input-container {
+        label, md-icon {
+            color: #fff;
+        }
+
+        md-icon {
+            font-size: 25px;
+            margin-top:-5px;
+        }
+
+        .md-input {
+            border-bottom:1px solid #fff;
+        }
+    }
 }
