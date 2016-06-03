@@ -1,0 +1,23 @@
+{
+  "name": "kodiak",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Enrique Jingco (ejingco@nerubia.com)"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.6",
+    "angular-material": "^1.0.9"
+  }
+}
