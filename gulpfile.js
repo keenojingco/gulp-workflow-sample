@@ -10,6 +10,14 @@ var cache = require('gulp-cache');
 var del = require('del');
 var runSequence = require('run-sequence');
 
+// inject bower components
+gulp.task('wiredep', function () {
+  var wiredep = require('wiredep').stream;
+  gulp.src('app/*.html')
+    .pipe(wiredep())
+    .pipe(gulp.dest('app'));
+});
+
 gulp.task('sass', function() {
     return gulp.src('app/scss/**/*.scss') // Gets all files ending with .scss in app/scss
         .pipe(sass())
@@ -22,7 +30,10 @@ gulp.task('sass', function() {
 gulp.task('browserSync', function() {
     browserSync.init({
         server: {
-            baseDir: 'app'
+            baseDir: 'app',
+            routes: {
+                "/bower_components" : './bower_components'
+            }
         },
     })
 });
@@ -59,7 +70,7 @@ gulp.task('clean:dist', function() {
 });
 
 gulp.task('default', function (callback) {
-    runSequence(['sass','browserSync', 'watch'],
+    runSequence(['sass', 'wiredep', 'browserSync', 'watch'],
         callback
     )
 });
