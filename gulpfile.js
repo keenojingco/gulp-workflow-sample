@@ -1,4 +1,7 @@
 var gulp = require('gulp');
+var config = require('./gulp.config')();
+var $ = require('gulp-load-plugins')({lazy: true});
+
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 var useref = require('gulp-useref');
@@ -10,12 +13,16 @@ var cache = require('gulp-cache');
 var del = require('del');
 var runSequence = require('run-sequence');
 
-// inject bower components
-gulp.task('wiredep', function () {
-  var wiredep = require('wiredep').stream;
-  gulp.src('app/*.html')
-    .pipe(wiredep())
-    .pipe(gulp.dest('app'));
+// wiredep bower components and inject app javascript
+gulp.task('wiredep', function(){
+    var wiredep = require('wiredep').stream;
+    var options = config.getWiredepOptions();
+
+    return gulp
+        .src(config.index)
+        .pipe(wiredep(options))
+        .pipe($.inject(gulp.src(config.js)))
+        .pipe(gulp.dest(config.app));
 });
 
 gulp.task('sass', function() {
@@ -30,7 +37,7 @@ gulp.task('sass', function() {
 gulp.task('browserSync', function() {
     browserSync.init({
         server: {
-            baseDir: 'app',
+            baseDir: config.app,
             routes: {
                 "/bower_components" : './bower_components'
             }
