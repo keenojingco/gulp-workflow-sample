@@ -15,7 +15,7 @@ module.exports = function() {
 			appJS + '**/*.js',
 			'!' + appJS + '**/*.spec.js'
 		],
-		sass : app + 'scss/styles.scss',
+		sass : app + 'scss/**/*.scss', // Gets all files ending with .scss in app/scss
 		temp: temp,
 
 		/* Bower and NPM locations */

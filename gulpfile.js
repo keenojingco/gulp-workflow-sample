@@ -1,19 +1,20 @@
 var gulp = require('gulp');
 var config = require('./gulp.config')();
-var $ = require('gulp-load-plugins')({lazy: true});
 
-var sass = require('gulp-sass');
-var browserSync = require('browser-sync').create();
 var useref = require('gulp-useref');
 var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 var cssnano = require('gulp-cssnano');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
+
+var browserSync = require('browser-sync').create();
 var del = require('del');
 var runSequence = require('run-sequence');
 
-// wiredep bower components and inject app javascript
+var $ = require('gulp-load-plugins')({lazy: true});
+
+// wiredep bower components and inject app scripts
 gulp.task('wiredep', function(){
     var wiredep = require('wiredep').stream;
     var options = config.getWiredepOptions();
@@ -25,24 +26,51 @@ gulp.task('wiredep', function(){
         .pipe(gulp.dest(config.app));
 });
 
-gulp.task('sass', function() {
-    return gulp.src('app/scss/**/*.scss') // Gets all files ending with .scss in app/scss
-        .pipe(sass())
-        .pipe(gulp.dest('app/css'))
+// compile sass to css
+gulp.task('styles', ['clean-styles'], function(){
+    return gulp
+        .src(config.sass)
+        .pipe($.sass())
+        .pipe($.autoprefixer({browsers : ['last 2 version', '> 5%']}))
+        .pipe(gulp.dest(config.temp))
         .pipe(browserSync.reload({
             stream: true
-        }))
+        }));
 });
 
+// inject app styles
+gulp.task('inject', ['wiredep', 'styles'], function(){
+    return gulp
+        .src(config.index)
+        .pipe($.inject(gulp.src(config.css)))
+        .pipe(gulp.dest(config.app));
+});
+
+// clean app styles folder
+gulp.task('clean-styles', function(){
+    var files = config.temp + '**/*.css';
+    return del.sync(files);
+});
+
+// browserSync
 gulp.task('browserSync', function() {
     browserSync.init({
         server: {
             baseDir: config.app,
             routes: {
-                "/bower_components" : './bower_components'
+                "/bower_components" : './bower_components',
+                "/.tmp": config.temp,
+                "/src/app/js": config.appJS
             }
         },
     })
+});
+
+// watchers for changes to css, js, and index.html files
+gulp.task('watch', ['browserSync', 'styles'], function(){
+    gulp.watch(config.sass, ['styles']);
+    gulp.watch(config.index, browserSync.reload);
+    gulp.watch(config.js, browserSync.reload);
 });
 
 gulp.task('useref', function() {
@@ -66,24 +94,20 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest('dist/fonts'))
 });
 
-gulp.task('watch', ['browserSync', 'sass'], function(){
-    gulp.watch('app/scss/**/*.scss', ['sass']);
-    gulp.watch('app/*.html', browserSync.reload);
-    gulp.watch('app/js/**/*.js', browserSync.reload);
-});
-
-gulp.task('clean:dist', function() {
+gulp.task('clean-dist', function() {
   return del.sync('dist');
 });
 
+// start/sreve dev build
 gulp.task('default', function (callback) {
-    runSequence(['sass', 'wiredep', 'browserSync', 'watch'],
+    runSequence(['inject', 'browserSync', 'watch'],
         callback
     )
 });
 
+// build production code
 gulp.task('build', function(callback) {
-    runSequence('clean:dist',['sass', 'useref', 'images', 'fonts'],
+    runSequence('clean-dist',['inject', 'useref', 'images', 'fonts'],
         callback
     )
 });
