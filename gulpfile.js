@@ -67,9 +67,9 @@ gulp.task('watch', ['browserSync', 'styles'], function(){
 
 gulp.task('useref', function() {
     return gulp.src(config.index)
-        .pipe($.useref())
-        // .pipe($.if('*.js', $.uglify()))
-        // .pipe($.if('*.css', $.cssnano()))
+        .pipe($.useref({ searchPath: './' }))
+        .pipe($.if('*.js', $.uglify()))
+        .pipe($.if('*.css', $.cssnano()))
         .pipe(gulp.dest('dist'))
 });
 
