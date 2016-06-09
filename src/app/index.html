@@ -10,13 +10,13 @@
     <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- end CDN -->
 
-    <!--build:css css/vendor.min.css-->
+    <!-- build:css css/vendor.min.css-->
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!--build:css css/styles.min.css-->
+    <!-- build:css css/styles.min.css-->
     <link rel="stylesheet" href="css/styles.css">
     <!-- endbuild -->
 </head>
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <!--build:js js/vendor.min.js -->
+    <!-- build:js js/vendor.min.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -85,10 +85,12 @@
             .controller("homeController", homeController );
     </script>
 
-    <!--build:js js/main.min.js -->
-    <script src="js/lib/a-library.js"></script>
-    <script src="js/lib/another-library.js"></script>
-    <script src="js/main.js"></script>
+    <!-- build:js js/main.min.js -->
+    <!-- inject:js -->
+    <script src="/src/app/js/main.js"></script>
+    <script src="/src/app/js/lib/a-library.js"></script>
+    <script src="/src/app/js/lib/another-library.js"></script>
+    <!-- endinject -->
     <!-- endbuild -->
 </body>
 </html>
